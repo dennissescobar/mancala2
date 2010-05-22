@@ -221,11 +221,11 @@ public class Mancala extends _Juego {
                             }
 			}
 
-                       /** Retorna el valor del movimiento.
-                        */
-                        public int getMov(){
-                            return movimiento;
-                        }
+            /** Retorna el valor del movimiento.
+             */
+            public int getMov(){
+                  return movimiento;
+            }
 
 			@Override public String toString() {
                             if (movimiento==0){return CASILLAS[0];}
@@ -286,7 +286,7 @@ public class Mancala extends _Juego {
 	public static void main(String[] args) throws Exception {
             for (int i=0;i<100;i++){
                 	System.out.println(Partida.completa(Mancala.JUEGO,
-				new AgenteConsola(), new AgenteAlmaceneroSmith(7)
+				new AgenteConsola(), new AgenteEscalador(7)
 			).toString());
             }
  	
