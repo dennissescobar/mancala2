@@ -15,7 +15,6 @@ import juegos.base.*;
 public class AgenteEscalador implements Agente {
 
     private Jugador jugador;
-    private int profundidad;
 	private final Random random;
 
 
@@ -136,79 +135,8 @@ public class AgenteEscalador implements Agente {
     }
 
 
-    /** Algoritmo de MiniMax con poda alfa beta y profundidad máxima.
-     */
-    private Double minimaxAB(Jugador jugador, Estado estado, Double alfa, Double beta, int profundidad){
-        if (!(estado.resultado(jugador)==null)) {
-            return estado.resultado(jugador);
-        }
-        if(profundidad>this.profundidad){
-            Double valor=heuristicaCantidadSemillas((EstadoMancala)estado);
-            return valor;
-        }
-        List<Estado> children=estadosHijos(estado);
-        if (soyYo(jugador)){//turno de max
-            Double score;
-            for (Estado estado1 : children) {
-                score = minimaxAB(oponente(jugador, estado1.jugadores()), estado1,alfa,beta, profundidad+1);
-                if (score>alfa){
-                    alfa=score;
-                }
-                if (alfa>beta){
-                    return alfa;
-                }
-            }
-            return alfa;
-        }else{//turno de min
-            Double score;
-            for (Estado estado1 : children) {
-                score = minimaxAB(oponente(jugador, estado1.jugadores()), estado1,alfa,beta, profundidad+1);
-                if (score<beta){
-                    beta=score;
-                }
-                if (alfa>beta){
-                    return beta;
-                }
-            }
-            return beta;
-        }
-    }
 
-    /** Lista de estados hijos de un estado luego de aplicado un movimiento.
-     * Necesario para realizar el MiniMax.
-     */
-    private List<Estado> estadosHijos(Estado estado){
-        EstadoMancala estadom=(EstadoMancala)estado;
-        Jugador jugadorEstado=estadom.jugadores()[estadom.jugadoractual];
-        Movimiento[] movimientos=estadom.movimientos(jugadorEstado);
-        List<Estado> estados=new ArrayList<Estado>();
-        int cantmovs=0;
-        if(movimientos!=null)
-            cantmovs=movimientos.length;
-        for (int i=0; i<cantmovs;i++){
-            estados.add(estadom.clone().siguiente(movimientos[i]));
-        }
-        return estados;
-    }
-
-    /** Le permite al agente saber si es el quien juega o el oponente:
-     * Una pregunta filosofica, soy yooo?? para saber quien soy realmente.
-     */
-    private boolean soyYo(Jugador jugador){
-        return this.jugador==jugador;
-    }
-
-   /** Devuelve el oponente de un jugador dado.
-    */
-    private Jugador oponente(Jugador jugador,Jugador[] jugadores){
-        for (Jugador jugador1 : jugadores) {
-            if (jugador1!=jugador){
-                return jugador1;
-            }
-        }
-        return null;
-    }
-    
+ 
     
     /*
      * Retorna los vecinos de una movimiento, por ejemplo, si se quieren los vecinos
