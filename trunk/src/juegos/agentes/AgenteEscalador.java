@@ -41,79 +41,7 @@ public class AgenteEscalador implements Agente {
     	return jugador;
     }
 
-    /**
-     * Decisión de movimiento que deberá realizar el agente basado en un estado.
-     * Para cada posible movimiento brinda un puntaje utilizando minimax y
-     * reglas heuristicas. Elige el mejor.
-     */
-    public Movimiento decision3(Estado estadoreal) {
-        Movimiento[] movs=estadoreal.movimientos(this.jugador);
-        
-        EstadoMancala estadom=(EstadoMancala) estadoreal;
-        System.out.println("MOVIMIENTOS: ");
-        for (Movimiento movimiento : movs) {
-        	System.out.println(((MovimientoMancala)movimiento).getMov());
-        }
-        
-		
-		Movimiento puntoalazar= movs[random.nextInt(movs.length)];
-        Movimiento mejormovimiento=puntoalazar;
-        
-        System.out.println("MOV AL AZAR: "+((MovimientoMancala)puntoalazar).toString());
-        System.out.println("VECINOS: ");
-        
-        List<Movimiento> vecinos=vecinos(puntoalazar,movs);
-        for (Movimiento vecino:vecinos){
-        	System.out.println(vecino.toString());
-        }
-        
-        Estado estadoactual=estadom.clone().siguiente(puntoalazar);
-        Double puntajeactual=heuristicaCantidadSemillas((EstadoMancala)(estadoactual));
 
-        Double mejorpuntaje=puntajeactual;
-        Double puntajevecino=0.0;
-        
-        System.out.println("PUNTAJE MOVAZAR: "+puntajeactual);
-        Estado estadovecino;
-        
-        Boolean encontradomaximo=false;
-        
-        Double puntajeanterior=mejorpuntaje;
-        
-        while (!encontradomaximo){
-        	
-            for (Movimiento vecino:vecinos){
-            	
-            	estadovecino=estadom.clone().siguiente(vecino);
-            	puntajevecino=heuristicaCantidadSemillas((EstadoMancala)(estadovecino));
-            	System.out.println("PUNTAJE VECINO "+vecino.toString()+": "+puntajevecino);
-            	if (puntajevecino>mejorpuntaje){
-            		mejorpuntaje=puntajevecino;
-            		mejormovimiento=vecino;
-            	}
-            }
-        	encontradomaximo=mejorpuntaje==puntajeanterior;
-        	
-        }
-        
-
-        
-	
-        /*
-        Double puntaje=Double.MIN_VALUE;
-        for (Movimiento movimiento : movs) {
-            Estado estadohijo=estadom.clone().siguiente(movimiento);
-            Double puntajeminimax=minimaxAB(oponente(this.jugador, estadohijo.jugadores()),estadohijo,Double.MIN_VALUE,Double.MAX_VALUE, 0);
-            if (puntajeminimax>=puntaje){
-              mejormovimiento=movimiento;
-              puntaje=puntajeminimax;
-
-            }
-        }*/
-        return mejormovimiento;
-    }
-
-    
     
     
     public Movimiento decision(Estado estadoreal) {
@@ -123,8 +51,8 @@ public class AgenteEscalador implements Agente {
 		Movimiento mejormovimiento= movs[random.nextInt(movs.length)];
 
         
-        System.out.println("MOV AL AZAR: "+((MovimientoMancala)mejormovimiento).toString());
-        System.out.println("VECINOS: ");
+		//System.out.println("MOV AL AZAR: "+((MovimientoMancala)mejormovimiento).toString());
+		//System.out.println("VECINOS: ");
         
         List<Movimiento> vecinos=vecinos(mejormovimiento,movs);
 
@@ -140,16 +68,15 @@ public class AgenteEscalador implements Agente {
         Boolean encontradomaximo=false;
         
         Double puntajeanterior=mejorpuntaje;
-        int i=1;
-        while (!encontradomaximo && i<10){
-        	i++;
-        	System.out.println("MEJOR MOV TEMP: "+mejormovimiento.toString()+" con puntaje: "+ mejorpuntaje);
+
+        while (!encontradomaximo){
+        	//System.out.println("MEJOR MOV TEMP: "+mejormovimiento.toString()+" con puntaje: "+ mejorpuntaje);
         	puntajeanterior=mejorpuntaje;
             for (Movimiento vecino:vecinos){
             	
             	estadovecino=estadom.clone().siguiente(vecino);
             	puntajevecino=heuristicaCantidadSemillas((EstadoMancala)(estadovecino));
-            	System.out.println("PUNTAJE VECINO "+vecino.toString()+": "+puntajevecino);
+            	//System.out.println("PUNTAJE VECINO "+vecino.toString()+": "+puntajevecino);
             	
             	if (puntajevecino>mejorpuntaje){
             		
@@ -157,7 +84,7 @@ public class AgenteEscalador implements Agente {
             		mejormovimiento=vecino;
             	}
             }
-            System.out.println("MEJOR PUNTAJE: "+mejorpuntaje+", PUNTAJE ANT:"+puntajeanterior);
+            //System.out.println("MEJOR PUNTAJE: "+mejorpuntaje+", PUNTAJE ANT:"+puntajeanterior);
         	encontradomaximo=mejorpuntaje==puntajeanterior;
         	
         	vecinos=vecinos(mejormovimiento,movs);
