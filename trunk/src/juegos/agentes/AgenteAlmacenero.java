@@ -53,8 +53,6 @@ public class AgenteAlmacenero implements Agente {
 
             }
         }
-        if(mejormovimiento==null)
-        	System.out.println("aca esta la porqueria");
         return mejormovimiento;
     }
 

@@ -43,11 +43,11 @@ public class AgenteAlmaceneroSmith implements Agente {
     public Movimiento decision(Estado estadoreal) {
         Movimiento[] movs=estadoreal.movimientos(this.jugador);
         EstadoMancala estadom=(EstadoMancala) estadoreal;
-        Movimiento mejormovimiento=movs[0];
-        Double puntaje=Double.MIN_VALUE;
+        Movimiento mejormovimiento=null;
+        Double puntaje=-Double.MAX_VALUE;
         for (Movimiento movimiento : movs) {
             Estado estadohijo=estadom.clone().siguiente(movimiento);
-            Double puntajeminimax=minimaxAB(oponente(this.jugador, estadohijo.jugadores()),estadohijo,Double.MIN_VALUE,Double.MAX_VALUE, 0);
+            Double puntajeminimax=minimaxAB(oponente(this.jugador, estadohijo.jugadores()),estadohijo,-Double.MAX_VALUE,Double.MAX_VALUE, 0);
             if (puntajeminimax>=puntaje){
               mejormovimiento=movimiento;
               puntaje=puntajeminimax;
