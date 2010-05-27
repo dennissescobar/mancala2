@@ -93,7 +93,7 @@ public class AgenteConsola implements Agente {
 	
 	@Override public void movimiento(Movimiento movimiento, Estado estado) {
 		if (!jugador.equals(movimiento.jugador())) {
-			output.println(String.format("Oponente mueve %s.", movimiento));
+			output.println(String.format("Jugador %s mueve %s.", jugador, movimiento));
 		}
 		printEstado(estado);
 	}

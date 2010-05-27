@@ -170,26 +170,40 @@ public class Mancala extends _Juego {
 
        /** El resultado del jugador si es un tablero final (de lo contrario retorna null).
         */
-		@Override public Double resultado(Jugador jugador) {
+		/*@Override public Double resultado(Jugador jugador) {
                     if (!this.tablero.esFinal()){
                         return null;
                     }
-                    int puntaje0=0;
+                    Double puntaje0=0.0;
                     for (int i=0;i<7;i++){
-                     puntaje0=puntaje0+tablero.getSemillas(i);
+                        puntaje0=puntaje0+tablero.getSemillas(i);
                     }
-                    
-                    
-                    Double canta=puntaje0+0.0;
-                	Double cantb=48.0-puntaje0;
-                	
                     if (jugador.toString().equals("As")){
-                        return canta-cantb;//para que retorne valores negativos si a pierde
+                        return puntaje0;
                     }else{
-                        return cantb-canta;//para que retorne valores negativos si b pierde
+                        return 48-puntaje0;
                     }
+		}*/
+		@Override public Double resultado(Jugador jugador) {
+            if (!this.tablero.esFinal()){
+                return null;
+            }
+            Double puntaje0=0.0;
+            for (int i=0;i<7;i++){
+                puntaje0=puntaje0+tablero.getSemillas(i);
+            }
+            
+            
+            Double canta=puntaje0;
+        	Double cantb=48.0-puntaje0;
+        	Double resultadototal=0.0;
+            if (jugador.toString().equals("As")){
+                resultadototal= canta-cantb;//para que retorne valores negativos si a pierde
+            }else{
+                resultadototal= cantb-canta;//para que retorne valores negativos si b pierde
+            }
+            return resultadototal;
 		}
-
 
        /** Representa un movimiento del Mancala.
         */
@@ -221,11 +235,11 @@ public class Mancala extends _Juego {
                             }
 			}
 
-            /** Retorna el valor del movimiento.
-             */
-            public int getMov(){
-                  return movimiento;
-            }
+                       /** Retorna el valor del movimiento.
+                        */
+                        public int getMov(){
+                            return movimiento;
+                        }
 
 			@Override public String toString() {
                             if (movimiento==0){return CASILLAS[0];}
@@ -284,9 +298,11 @@ public class Mancala extends _Juego {
    /** Metodo principal del Juego Mancala.
     */
 	public static void main(String[] args) throws Exception {
+          // Double genotipo[]={1.0,2.0,3.0,1.0,1.0,1.0,17.0};
+
             for (int i=0;i<100;i++){
                 	System.out.println(Partida.completa(Mancala.JUEGO,
-				new AgenteConsola(), new AgenteEscalador(7)
+				new AgenteAlmacenero(3), new AgenteSmith(3)
 			).toString());
             }
  	

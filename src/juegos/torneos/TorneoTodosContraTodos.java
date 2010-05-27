@@ -75,13 +75,12 @@ public class TorneoTodosContraTodos extends _Torneo {
 	/** Prueba rápida con un torneo de Mancala entre cinco agentes. 
 	 */
 	public static void main(String[] args) throws Exception {
-		Torneo torneo = new TorneoTodosContraTodos(20, Mancala.JUEGO, 
+		Torneo torneo = new TorneoTodosContraTodos(10, Mancala.JUEGO, 
 			new AgenteAleatorio(), 
-			new AgenteRover(5), 
-			new AgenteSmith(5), 
-			new AgenteAlmacenero(5), 
-			new AgenteAlmaceneroSmith(5));
-		
+			new AgenteRover(3), 
+			new AgenteSmith(3), 
+			new AgenteAlmacenero(3), 
+			new AgenteAlmaceneroSmith(3));
 		int cantidadPartidas = torneo.completar();
 		System.out.println(torneo);
 		System.out.println("Total de partidas = "+ cantidadPartidas);

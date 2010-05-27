@@ -1,12 +1,14 @@
 package juegos.torneos;
 
+import java.util.Random;
+
 import juegos.base.*;
 
 /** Clase utilitaria para implementar rápidamente torneos.
  */
 public abstract class _Torneo implements Torneo {
 	protected final Juego juego;
-	protected final Agente[] agentes;
+	protected Agente[] agentes;
 	protected double[][] estadisticas;
 	
 	public _Torneo(Juego juego, Agente... agentes) {
@@ -75,4 +77,35 @@ public abstract class _Torneo implements Torneo {
 			}
 		}
 	}
+	
+	/** Imprime una tabla con las estadísticas para cada agente. 
+	 */
+	@Override public String toString() {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(this.getClass().getSimpleName() +".\n")
+			.append("\t#partidas\t#ganadas\t#perdidas\tpromedio\n");
+		for (int i = 0; i < agentes.length; i++) {
+			buffer.append(String.format("\t%s\n\t%8d\t%8d\t%8d\t%8.4f\n",
+				agentes[i], (int)estadisticas[i][0], (int)estadisticas[i][1],
+				(int)estadisticas[i][2], estadisticas[i][3]));
+		}
+		return buffer.toString();
+	}
+	
+////////////////////////////////////////////////////////////////////////////////
+	
+	public static Agente[] shuffle(Random random, Agente... agentes) {
+		if (random != null) {
+			for (int i = 0; i < agentes.length - 1; i++) {
+				if (random.nextBoolean()) {
+					Agente temp = agentes[i];
+					int j = random.nextInt(agentes.length - i) + i;
+					agentes[i] = agentes[j];
+					agentes[j] = temp;
+				}
+			}
+		}
+		return agentes;
+	}
+	
 }

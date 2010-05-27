@@ -45,7 +45,7 @@ public class AgenteRover implements Agente {
     public Movimiento decision(Estado estadoreal) {
         Movimiento[] movs=estadoreal.movimientos(this.jugador);
         EstadoMancala estadom=(EstadoMancala)estadoreal;
-        Movimiento peormovimiento=null;
+        Movimiento peormovimiento=movs[0];
         Double puntaje=Double.MAX_VALUE;
         for (Movimiento movimiento : movs) {
             Estado estadohijo=estadom.clone().siguiente(movimiento);

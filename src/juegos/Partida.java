@@ -45,6 +45,8 @@ public class Partida {
 				// Supone un solo agente habilitado por vez.
 				if (movs != null && movs.length > 0) {
 					Movimiento accion = agente.decision(actual);
+					if(accion==null)
+						System.out.println("aca esta la porqueria");
 					actual = actual.siguiente(accion);
 					for (int i = 0; i < agentes.length; i++) {
 						agentes[i].movimiento(accion, actual);
@@ -109,6 +111,7 @@ public class Partida {
 				.append('\t').append(agentes[i]).append('\n');
 		}
 		int i = 1;
+		System.err.println(movimientos);
 		for (Movimiento mov : movimientos) {
 			buffer.append(i)
 				.append('\t').append(mov.jugador())
