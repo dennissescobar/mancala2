@@ -7,21 +7,23 @@ import java.util.List;
 import juegos.base.*;
 
 /**
- * Agente que utiliza Minimax y 1 heuristica.
- * La heuristica contabiliza la cantidad de fichas ganadas (del lado del jugador)
+ * Agente que utiliza computación evolutiva.
+ * 
  */
-public class AgenteSmith implements Agente {
+public class AgenteDarwin implements Agente {
 
     private Jugador jugador;
     private int profundidad;
+    private Double[] genotipo;
 
     /**
      * Constructor del agente, es necesaria una profundidad máxima para realizar
      * el MiniMax, es recomendable una profundidad no superior a 8 si se quieren
      * tiempos de respuesta aceptables.
      */
-    public AgenteSmith(int profundidad){
+    public AgenteDarwin(int profundidad,Double[] genotipo){
         this.profundidad=profundidad;
+        this.genotipo=genotipo;
     }
 
     /**
@@ -73,25 +75,31 @@ public class AgenteSmith implements Agente {
     * del jugador.
     * Cuenta también las semillas en el almacen (pero sin darle valor extra).
     */
-    private Double heuristicaCantidadSemillas(EstadoMancala estado){
+    private Double heuristicaCasilla(EstadoMancala estado,int casilla){
          TableroMancala tablero=estado.tablero;
          Double valor=0.0;
-         int limiteinferior;
-         int limitesuperior;
          if(this.jugador.toString().equals("As")) {
-             limiteinferior=0;
-             limitesuperior=6;
-         }
-         else {
-             limiteinferior=7;
-             limitesuperior=13;
-         }
-         for (int i=limiteinferior;i<=limitesuperior;i++){
-            valor=valor+tablero.getSemillas(i);
+             valor=tablero.getSemillas(casilla)+0.0;
+         }else {
+        	 valor=tablero.getSemillas(tablero.casaOpuesta(casilla))+0.0;;
          }
          return valor;
     }
 
+    /** Heuristica que brinda puntaje a capturar semillas, cuanto más semillas
+     * se encuentren en el almacen, más puntaje se obtendrá.
+     */
+    private Double heuristicaSemillasEnAlmacen(EstadoMancala estado){
+         TableroMancala tablero=estado.tablero;
+         int almacen;
+         if(this.jugador.toString().equals("As")) {
+             almacen=6;
+         }
+         else {
+             almacen=13;
+         }
+         return tablero.getSemillas(almacen)+0.0;
+    }
 
     /** Algoritmo de MiniMax con poda alfa beta y profundidad máxima.
      */
@@ -100,7 +108,13 @@ public class AgenteSmith implements Agente {
             return estado.resultado(jugador);
         }
         if(profundidad>this.profundidad){
-            Double valor=heuristicaCantidadSemillas((EstadoMancala)estado);
+            Double valor=genotipo[0]*heuristicaCasilla((EstadoMancala)estado,0)+
+            			 genotipo[1]*heuristicaCasilla((EstadoMancala)estado,1)+
+            			 genotipo[2]*heuristicaCasilla((EstadoMancala)estado,2)+
+            			 genotipo[3]*heuristicaCasilla((EstadoMancala)estado,3)+
+            			 genotipo[4]*heuristicaCasilla((EstadoMancala)estado,4)+
+            			 genotipo[5]*heuristicaCasilla((EstadoMancala)estado,5)+                         
+            			 genotipo[6]*heuristicaSemillasEnAlmacen((EstadoMancala)estado);
             return valor;
         }
         List<Estado> children=estadosHijos(estado);

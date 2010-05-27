@@ -42,7 +42,7 @@ public class AgenteAlmacenero implements Agente {
     public Movimiento decision(Estado estadoreal) {
         Movimiento[] movs=estadoreal.movimientos(this.jugador);
         EstadoMancala estadom=(EstadoMancala) estadoreal;
-        Movimiento mejormovimiento=null;
+        Movimiento mejormovimiento=movs[0];
         Double puntaje=Double.MIN_VALUE;
         for (Movimiento movimiento : movs) {
             Estado estadohijo=estadom.clone().siguiente(movimiento);
@@ -53,6 +53,8 @@ public class AgenteAlmacenero implements Agente {
 
             }
         }
+        if(mejormovimiento==null)
+        	System.out.println("aca esta la porqueria");
         return mejormovimiento;
     }
 
